@@ -484,17 +484,17 @@
 
     <!-- Cabeçalho -->
     <header class="flex justify-between items-center">
-        <h1 class="logo">FILMFLIX</h1>
+        <h1 class="logo">CINEMAX</h1>
         <nav class="hidden md:flex space-x-4">
-            <a href="#" class="nav-link">Inicio</a>
-            <a href="#" class="nav-link">Planos</a>
-            <a href="#" class="nav-link">Dúvidas</a>
-            <a href="#" class="nav-link">Assinar</a>
+            <a href="#home" class="nav-link">Inicio</a>
+            <a href="#faq" class="nav-link">Dúvidas</a>
+            <a href="#prices" class="nav-link">Planos</a>
+
         </nav>
     </header>
 
     <!-- Slider principal -->
-    <div class="slider-container">
+    <div class="slider-container" id="home">
         <div class="slider-item active" data-index="0">
             <img src="https://uploads.jovemnerd.com.br/wp-content/uploads/2025/06/f1_movie_poster16x9__1___8r66614pk.jpg" alt="Imagem principal">
             <div class="overlay"></div>
@@ -503,21 +503,21 @@
                 <h1 class="text-white">F1: <span class="text-highlight-color" style="color: #E43636">O FILME</span></h1>
                 <p>Filme de ação e drama esportivo que acompanha a vida de pilotos de Fórmula 1, explorando tanto as corridas de alta velocidade quanto os bastidores de rivalidades, pressão e sacrifícios. Mostra a emoção das pistas e os desafios pessoais enfrentados pelos competidores.</p>
                 <div class="flex space-x-4 mt-8">
-                    <a href="#" class="btn btn-outlined">Saiba Mais</a>
-                    <a href="#" class="btn btn-filled">Assinar</a>
+                    <a href="https://pay.cakto.com.br/9ejw5w9" class="btn btn-outlined">Saiba Mais</a>
+                    <a href="https://pay.cakto.com.br/9ejw5w9" target="_blank" class="btn btn-filled">Assinar</a>
                 </div>
             </div>
         </div>
         <div class="slider-item" data-index="1">
-            <img src="https://rollingstone.com.br/media/uploads/2025/08/quanto-falta-para-quarteto-fantastico-primeiros-passos-se-tornar-a-maior-bilheteria-da-marvel-em-2025.jpg" alt="Imagem principal">
+            <img src="https://i0.wp.com/cadernopop.com.br/wp-content/uploads/2025/07/Quarteto-Fantastico-Primeiros-Passos-1.jpg?fit=1920%2C1080&ssl=1" alt="Imagem principal">
             <div class="overlay"></div>
             <div class="slider-content">
                 <h2>Super-Heróis</h2>
                 <h1 class="text-white">QUARTETO <span class="text-highlight-color" style="color: #E43636">FANTÁSTICO</span></h1>
                 <p>Grupo de super-heróis da Marvel formado por Reed Richards (Sr. Fantástico), Sue Storm (Mulher Invisível), Johnny Storm (Tocha Humana) e Ben Grimm (Coisa). Eles ganham poderes após uma missão espacial e precisam lidar com suas novas habilidades enquanto enfrentam vilões como o Doutor Destino.</p>
                 <div class="flex space-x-4 mt-8">
-                    <a href="#" class="btn btn-outlined">Saiba Mais</a>
-                    <a href="#" class="btn btn-filled">Assinar</a>
+                    <a href="https://pay.cakto.com.br/9ejw5w9" class="btn btn-outlined">Saiba Mais</a>
+                    <a href="https://pay.cakto.com.br/9ejw5w9" target="_blank" class="btn btn-filled">Assinar</a>
                 </div>
             </div>
         </div>
@@ -529,8 +529,8 @@
                 <h1 class="text-white">PEAKY <span class="text-highlight-color" style="color: #E43636">BLINDERS</span></h1>
                 <p>Série britânica de drama histórico que acompanha a família Shelby, uma gangue de Birmingham no pós-Primeira Guerra Mundial. Liderada por Thomas Shelby, a trama mistura crime organizado, política, traições e estratégias de poder em um clima sombrio e intenso.</p>
                 <div class="flex space-x-4 mt-8">
-                    <a href="#" class="btn btn-outlined">Saiba Mais</a>
-                    <a href="#" class="btn btn-filled">Assinar</a>
+                    <a href="https://pay.cakto.com.br/9ejw5w9" class="btn btn-outlined">Saiba Mais</a>
+                    <a href="https://pay.cakto.com.br/9ejw5w9" target="_blank" class="btn btn-filled">Assinar</a>
                 </div>
             </div>
         </div>
@@ -552,7 +552,7 @@
             </div>
         </div>
         <div class="thumbnail-item" data-index="1">
-            <img src="https://rollingstone.com.br/media/uploads/2025/08/quanto-falta-para-quarteto-fantastico-primeiros-passos-se-tornar-a-maior-bilheteria-da-marvel-em-2025.jpg" alt="Thumbnail 2">
+            <img src="https://i0.wp.com/cadernopop.com.br/wp-content/uploads/2025/07/Quarteto-Fantastico-Primeiros-Passos-1.jpg?fit=1920%2C1080&ssl=1" alt="Thumbnail 2">
             <div class="thumb-info">
                 <h3>QUARTETO FANTÁSTICO</h3>
                 <p>2025</p>
@@ -579,7 +579,7 @@
                 <h2>Trabalhamos com os Melhores Parceiros</h2>
                 <p>Grande diversidade de marcas, dentre elas, algumas são:</p>
                 <button class="px-6 py-3 mt-4 text-white font-medium bg-highlight-color rounded-lg" style="background-color: #E43636">
-                    <a href="#">Assinar</a>
+                    <a href="#services-container">Assinar</a>
                 </button>
             </div>
             <div class="partners-grid">
@@ -604,8 +604,8 @@
             </div>
         </div>
     </section>
-<section class="services-section">
-    <div class="services-container">
+<section class="services-section" #id="services-section">
+    <div class="services-container" #id="services">
         <h2 class="services-title">Quanto você gastaria mensalmente com os serviços abaixo? <br> <span style="color: #E43636;">Seriam R$ 255,54 MENSAL!</span></h2>
         <div class="services-grid">
             <div class="service-card">
@@ -653,7 +653,7 @@
         </div>
     </div>
 </section>
-<section class="pricing-section bg-black text-white py-16 px-6 md:px-20">
+<section class="pricing-section bg-black text-white py-16 px-6 md:px-20" id="prices">
   <h2 class="text-3xl font-bold text-center mb-12">Conheça Nossos Planos e suas <span style="color: #E43636;">Vantagens</span></h2>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
     
@@ -696,7 +696,7 @@
 </section>
 
 <!-- FAQ -->
-<section class="faq-section bg-zinc-100 text-black py-16 px-6 md:px-20">
+<section class="faq-section bg-zinc-100 text-black py-16 px-6 md:px-20" id="faq">
   <h2 class="text-3xl font-bold text-center mb-12">Perguntas Frequentes</h2>
   <div class="max-w-4xl mx-auto space-y-6">
     <div class="bg-white p-6 rounded-lg shadow">
