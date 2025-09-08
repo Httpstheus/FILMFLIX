@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FILMFLIX - Assista Quando e Onde Quiser!</title>
+    <link rel="icon" href="https://static.vecteezy.com/system/resources/thumbnails/042/236/044/small/ai-generated-popcorn-in-striped-box-isolated-on-transparent-background-png.png" type="image/x-icon">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        
+        :root {
+            --bg-color: #000;
+            --text-color: #fff;
+            --highlight-color: #F87171; /* Cor alaranjada/vermelha */
+            --secondary-text: #ddd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        
+        header {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            background: transparent;
+            padding: 2rem 5rem;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: var(--secondary-text);
+        }
+        
+        .nav-link {
+            color: var(--secondary-text);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .slider-item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center; 
+            justify-content: flex-start;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slider-item.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .slider-item img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%);
+            z-index: 2;
+        }
+
+        .slider-content {
+            position: relative;
+            z-index: 3;
+            max-width: 50%;
+            text-align: left;
+            padding: 0 5rem;
+        }
+
+        .slider-content h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .slider-content h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--secondary-text);
+            margin-bottom: 0.5rem;
+        }
+        
+        .slider-content p {
+            font-size: 0.875rem;
+            margin-top: 1.5rem;
+            max-width: 500px;
+            color: var(--secondary-text);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .slider-item .btn {
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            border: 2px solid var(--text-color);
+        }
+
+        .btn-filled {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .btn-outlined {
+            background-color: transparent;
+            color: var(--text-color);
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 40px;
+            left: 5rem;
+            z-index: 4;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .slider-nav button {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-nav button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .thumbnails-container {
+            position: absolute;
+            bottom: 30px;
+            right: 5rem;
+            z-index: 4;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .thumbnail-item {
+            width: 150px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            text-align: center;
+        }
+
+        .thumbnail-item img {
+            position: static;
+            width: 100%;
+            height: 100px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .thumbnail-item.active, .thumbnail-item:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .thumbnail-item.active .thumb-info, .thumbnail-item:hover .thumb-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .thumb-info {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .thumb-info h3 {
+            font-size: 10px;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .thumb-info p {
+            font-size: 0.75rem;
+            color: var(--secondary-text);
+        }
+
+        .partners-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 1rem;
+            background-color: #f5f5f5;
+            color: #000;
+        }
+
+        .partners-content {
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            width: 100%;
+            text-align: left;
+            gap: 2rem;
+        }
+
+        .partners-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            text-align: left;
+        }
+
+        .partners-text h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .partners-text p {
+            max-width: 500px;
+            font-size: 1rem;
+            color: #555;
+        }
+        
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            justify-items: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .partner-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .partner-item img {
+            max-width: 150px;
+            height: auto;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+        .partner-item:hover img {
+            filter: grayscale(0%);
+        }
+
+        @media (min-width: 768px) {
+            .partners-content {
+                flex-direction: row;
+                text-align: left;
+                align-items: flex-start;
+            }
+            .partners-text {
+                flex: 1;
+            }
+            .partners-grid {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slider-content {
+                padding: 0 1rem;
+                max-width: 100%;
+                text-align: center;
+            }
+            .slider-content h1 {
+                font-size: 2.5rem;
+            }
+            header {
+                padding: 1rem 1rem;
+                text-align: center;
+            }
+            .nav-link {
+                padding: 0.5rem;
+            }
+            .slider-nav {
+                bottom: 120px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .thumbnails-container {
+                right: initial;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            .thumbnail-item {
+                min-width: 120px;
+            }
+            .partners-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .partners-text {
+                align-items: center;
+            }
+            .partners-text p {
+                text-align: center;
+            }
+            .partners-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+.services-section {
+    padding: 6rem 5rem;
+    background-color: #151516;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.services-container {
+    max-width: 1200px;
+    width: 100%;
+}
+
+.services-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+    margin-bottom: 3rem;
+    color: #fff;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.service-card {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card img {
+    width: 40%;
+    height: 50%;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.service-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.service-content p {
+    font-size: 2rem;
+    color: #E43636;
+    max-width: 300px;
+    font-weight: bold;
+}
+
+.service-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .services-section {
+        padding: 4rem 1rem;
+    }
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    .service-card {
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 1.5rem;
+    }
+    .service-content {
+        margin-right: 1rem;
+    }
+    .service-icon {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+.pricing-section {
+  background-color: #000;
+}
+.pricing-section h2 {
+  color: #fff;
+}
+.pricing-section .bg-zinc-900 {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.pricing-section .bg-zinc-900:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+.faq-section {
+  background-color: #f5f5f5;
+}
+.faq-section h2 {
+  color: #111;
+}
+.faq-section .bg-white {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.faq-section .bg-white:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+  .pricing-section .grid {
+    grid-template-columns: 1fr; /* cards em coluna no mobile */
+  }
+}
+    </style>
+</head>
+<body>
+
+    <!-- Cabeçalho -->
+    <header class="flex justify-between items-center">
+        <h1 class="logo">FILMFLIX</h1>
+        <nav class="hidden md:flex space-x-4">
+            <a href="#" class="nav-link">Inicio</a>
+            <a href="#" class="nav-link">Planos</a>
+            <a href="#" class="nav-link">Dúvidas</a>
+            <a href="#" class="nav-link">Assinar</a>
+        </nav>
+    </header>
+
+    <!-- Slider principal -->
+    <div class="slider-container">
+        <div class="slider-item active" data-index="0">
+            <img src="https://uploads.jovemnerd.com.br/wp-content/uploads/2025/06/f1_movie_poster16x9__1___8r66614pk.jpg" alt="Imagem principal">
+            <div class="overlay"></div>
+            <div class="slider-content">
+                <h2>Esporte/Ação</h2>
+                <h1 class="text-white">F1: <span class="text-highlight-color" style="color: #E43636">O FILME</span></h1>
+                <p>Filme de ação e drama esportivo que acompanha a vida de pilotos de Fórmula 1, explorando tanto as corridas de alta velocidade quanto os bastidores de rivalidades, pressão e sacrifícios. Mostra a emoção das pistas e os desafios pessoais enfrentados pelos competidores.</p>
+                <div class="flex space-x-4 mt-8">
+                    <a href="#" class="btn btn-outlined">Saiba Mais</a>
+                    <a href="#" class="btn btn-filled">Assinar</a>
+                </div>
+            </div>
+        </div>
+        <div class="slider-item" data-index="1">
+            <img src="https://rollingstone.com.br/media/uploads/2025/08/quanto-falta-para-quarteto-fantastico-primeiros-passos-se-tornar-a-maior-bilheteria-da-marvel-em-2025.jpg" alt="Imagem principal">
+            <div class="overlay"></div>
+            <div class="slider-content">
+                <h2>Super-Heróis</h2>
+                <h1 class="text-white">QUARTETO <span class="text-highlight-color" style="color: #E43636">FANTÁSTICO</span></h1>
+                <p>Grupo de super-heróis da Marvel formado por Reed Richards (Sr. Fantástico), Sue Storm (Mulher Invisível), Johnny Storm (Tocha Humana) e Ben Grimm (Coisa). Eles ganham poderes após uma missão espacial e precisam lidar com suas novas habilidades enquanto enfrentam vilões como o Doutor Destino.</p>
+                <div class="flex space-x-4 mt-8">
+                    <a href="#" class="btn btn-outlined">Saiba Mais</a>
+                    <a href="#" class="btn btn-filled">Assinar</a>
+                </div>
+            </div>
+        </div>
+        <div class="slider-item" data-index="2">
+            <img src="https://wallpapers.com/images/hd/shelby-gangsters-peaky-blinders-8k-d59zmqkvyhcqrv65.jpg" alt="Imagem principal">
+            <div class="overlay"></div>
+            <div class="slider-content">
+                <h2>Drama</h2>
+                <h1 class="text-white">PEAKY <span class="text-highlight-color" style="color: #E43636">BLINDERS</span></h1>
+                <p>Série britânica de drama histórico que acompanha a família Shelby, uma gangue de Birmingham no pós-Primeira Guerra Mundial. Liderada por Thomas Shelby, a trama mistura crime organizado, política, traições e estratégias de poder em um clima sombrio e intenso.</p>
+                <div class="flex space-x-4 mt-8">
+                    <a href="#" class="btn btn-outlined">Saiba Mais</a>
+                    <a href="#" class="btn btn-filled">Assinar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navegação do slider -->
+    <div class="slider-nav">
+        <button class="prev-btn">&#9664;</button>
+        <button class="next-btn">&#9654;</button>
+    </div>
+
+    <!-- Miniaturas -->
+    <div class="thumbnails-container">
+        <div class="thumbnail-item active" data-index="0">
+            <img src="https://uploads.jovemnerd.com.br/wp-content/uploads/2025/06/f1_movie_poster16x9__1___8r66614pk.jpg" alt="Thumbnail 1">
+            <div class="thumb-info">
+                <h3>F1: O FILME</h3>
+                <p>2025</p>
+            </div>
+        </div>
+        <div class="thumbnail-item" data-index="1">
+            <img src="https://rollingstone.com.br/media/uploads/2025/08/quanto-falta-para-quarteto-fantastico-primeiros-passos-se-tornar-a-maior-bilheteria-da-marvel-em-2025.jpg" alt="Thumbnail 2">
+            <div class="thumb-info">
+                <h3>QUARTETO FANTÁSTICO</h3>
+                <p>2025</p>
+            </div>
+        </div>
+        <div class="thumbnail-item" data-index="2">
+            <img src="https://wallpapers.com/images/hd/shelby-gangsters-peaky-blinders-8k-d59zmqkvyhcqrv65.jpg" alt="Thumbnail 3">
+            <div class="thumb-info">
+                <h3>PEAKY BLINDERS</h3>
+                <p>2022</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Seção de Parceiros -->
+    <section class="partners-section">
+        <div class="partners-content">
+            <div class="partners-text">
+                <div class="flex gap-2 text-sm font-light text-secondary-text">
+                    <span>ABRANGE</span>
+                    <span>VÁRIOS</span>
+                    <span>MODELOS</span>
+                </div>
+                <h2>Trabalhamos com os Melhores Parceiros</h2>
+                <p>Grande diversidade de marcas, dentre elas, algumas são:</p>
+                <button class="px-6 py-3 mt-4 text-white font-medium bg-highlight-color rounded-lg" style="background-color: #E43636">
+                    <a href="#">Assinar</a>
+                </button>
+            </div>
+            <div class="partners-grid">
+                <div class="partner-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/2560px-Samsung_Logo.svg.png" alt="Logo Samsung">
+                </div>
+                <div class="partner-item">
+                    <img src="https://images.squarespace-cdn.com/content/v1/502a8efb84ae42cbccf920c4/1585574686746-VCDIHSO21O76WR72WIAD/LG-Logo.png" alt="Logo LG">
+                </div>
+                <div class="partner-item">
+                    <img src="https://image.roku.com/blog/wp-content/uploads/2014/01/RokuTV_logo_purple1.png" alt="Logo Roku TV">
+                </div>
+                <div class="partner-item">
+                    <img src="https://static.cdnlogo.com/logos/t/71/tcl.png" alt="Logo TCL">
+                </div>
+                <div class="partner-item">
+                    <img src="https://logodownload.org/wp-content/uploads/2017/04/philco-logo-0.png" alt="Logo Philco">
+                </div>
+                <div class="partner-item">
+                    <img src="https://logodownload.org/wp-content/uploads/2020/02/semp-tcl-logo-0.png" alt="Logo Semp">
+                </div>
+            </div>
+        </div>
+    </section>
+<section class="services-section">
+    <div class="services-container">
+        <h2 class="services-title">Quanto você gastaria mensalmente com os serviços abaixo? <br> <span style="color: #E43636;">Seriam R$ 255,54 MENSAL!</span></h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-content">
+                    <h3>NetFlix</h3>
+                    <p>R$ 59,90</p>
+                </div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png" alt="Plastics & Packaging icon" class="service-icon">
+            </div>
+            <div class="service-card">
+                <div class="service-content">
+                    <h3>Prime Video</h3>
+                    <p>R$ 19,90</p>
+                </div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg" alt="Fashion & Apparel icon" class="service-icon">
+            </div>
+            <div class="service-card">
+                <div class="service-content">
+                    <h3>ESPN</h3>
+                    <p>R$ 27,99</p>
+                </div>
+                <img src="https://i.pinimg.com/originals/94/07/fa/9407fa33a1873b022ed3169d51ea6aff.png" alt="FMCG icon" class="service-icon">
+            </div>
+            <div class="service-card">
+                <div class="service-content">
+                    <h3>Premiere</h3>
+                    <p>R$ 39,90</p>
+                </div>
+                <img src="https://logodownload.org/wp-content/uploads/2018/04/premiere-fc-logo.png" alt="Luxury & Beauty icon" class="service-icon">
+            </div>
+            <div class="service-card">
+                <div class="service-content">
+                    <h3>Disney +</h3>
+                    <p>R$ 62,90</p>
+                </div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg" alt="Home icon" class="service-icon">
+            </div>
+            <div class="service-card">
+                <div class="service-content">
+                    <h3>SKY</h3>
+                    <p>R$ 44,95</p>
+                </div>
+                <img src="https://logodownload.org/wp-content/uploads/2014/09/sky-logo-01.png" alt="Health icon" class="service-icon">
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pricing-section bg-black text-white py-16 px-6 md:px-20">
+  <h2 class="text-3xl font-bold text-center mb-12">Conheça Nossos Planos e suas <span style="color: #E43636;">Vantagens</span></h2>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+    
+    <div class="bg-zinc-900 p-6 rounded-2xl shadow-lg hover:scale-105 transition">
+      <h3 class="text-xl font-semibold mb-4">Mensal</h3>
+      <p class="text-gray-400 mb-6">Flexível e sem compromisso</p>
+      <p>Flexibilidade total; <br><br> Ideal para quem deseja usar apenas por um tempo curto. </p>
+      <p class="text-3xl font-bold text-red-500 mb-6">R$ 34,90</p>
+
+      <a href="https://pay.cakto.com.br/jsp6hnv" target="_blank"><button class="w-full py-2 bg-red-600 rounded-lg font-semibold">Assinar</button></a>
+    </div>
+
+    <div class="bg-zinc-900 p-6 rounded-2xl shadow-lg hover:scale-105 transition">
+      <h3 class="text-xl font-semibold mb-4">Trimestral</h3>
+      <p class="text-gray-400 mb-6">Economia rápida</p>
+      <p>Custo acessível (R$29,97/mês); <br><br> Economia de R$14,80 em 3 meses em relação ao mensal. </p>
+      <p class="text-3xl font-bold text-red-500 mb-6">R$ 89,90</p>
+
+      <a href="https://pay.cakto.com.br/9ejw5w9" target="_blank"><button class="w-full py-2 bg-red-600 rounded-lg font-semibold">Assinar</button></a>
+    </div>
+
+    <div class="bg-zinc-900 p-6 rounded-2xl shadow-lg hover:scale-105 transition">
+      <h3 class="text-xl font-semibold mb-4">Semestral</h3>
+      <p class="text-gray-400 mb-6">Melhor custo-benefício</p>
+      <p>Valor mensal ainda menor (R$29,15/mês); <br><br> Economia de R$34,50 em 6 meses em relação ao mensal. </p>
+      <p class="text-3xl font-bold text-red-500 mb-6">R$ 174,90</p>
+
+      <a href="https://pay.cakto.com.br/39qys4s_324163" target="_blank"><button class="w-full py-2 bg-red-600 rounded-lg font-semibold">Assinar</button></a>
+    </div>
+
+    <div class="bg-zinc-900 p-6 rounded-2xl shadow-lg hover:scale-105 transition">
+      <h3 class="text-xl font-semibold mb-4">Anual</h3>
+      <p class="text-gray-400 mb-6">Máxima economia</p>
+      <p>Melhor custo-benefício (R$20,82/mês); <br><br> Economia de R$168,90 em 12 meses em relação ao mensal. </p>
+      <p class="text-3xl font-bold text-red-500 mb-6">R$ 249,90</p>
+
+      <a href="https://pay.cakto.com.br/kabyhwu" target="_blank"><button class="w-full py-2 bg-red-600 rounded-lg font-semibold">Assinar</button></a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section bg-zinc-100 text-black py-16 px-6 md:px-20">
+  <h2 class="text-3xl font-bold text-center mb-12">Perguntas Frequentes</h2>
+  <div class="max-w-4xl mx-auto space-y-6">
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h3 class="font-semibold text-lg mb-2">Posso cancelar quando quiser?</h3>
+      <p class="text-gray-600">Sim! Não há fidelidade, você pode cancelar a qualquer momento sem taxas extras.</p>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h3 class="font-semibold text-lg mb-2">Posso assistir em vários dispositivos?</h3>
+      <p class="text-gray-600">Sim, dependendo do plano contratado você pode assistir em até 6 telas ao mesmo tempo.</p>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h3 class="font-semibold text-lg mb-2">Posso mudar de plano a qualquer momento?</h3>
+      <p class="text-gray-600">Sim! Você pode alterar seu plano sempre que desejar, sem burocracia ou taxas adicionais.</p>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h3 class="font-semibold text-lg mb-2">Quais métodos de pagamento são aceitos?</h3>
+      <p class="text-gray-600">Aceitamos cartões de crédito, débito e também Pix para sua conveniência.</p>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h3 class="font-semibold text-lg mb-2">Há limites de uso ou acessos simultâneos?</h3>
+      <p class="text-gray-600">Depende do plano contratado; consulte os detalhes do seu pacote para saber os limites específicos.</p>
+    </div>
+  </div>
+</section>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sliderItems = document.querySelectorAll('.slider-item');
+            const thumbnails = document.querySelectorAll('.thumbnail-item');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const slideDuration = 3000;
+            let currentSlideIndex = 0;
+            let slideInterval;
+
+            function showSlide(index) {
+                // Remove a classe 'active' de todos os itens e miniaturas
+                sliderItems.forEach(item => item.classList.remove('active'));
+                thumbnails.forEach(thumb => thumb.classList.remove('active'));
+
+                // Adiciona a classe 'active' ao item e miniatura correspondentes
+                if (sliderItems[index]) {
+                    sliderItems[index].classList.add('active');
+                }
+                if (thumbnails[index]) {
+                    thumbnails[index].classList.add('active');
+                }
+            }
+
+            function nextSlide() {
+                currentSlideIndex = (currentSlideIndex + 1) % sliderItems.length;
+                showSlide(currentSlideIndex);
+            }
+
+            function prevSlide() {
+                currentSlideIndex = (currentSlideIndex - 1 + sliderItems.length) % sliderItems.length;
+                showSlide(currentSlideIndex);
+            }
+
+            function startAutoSlide() {
+                stopAutoSlide(); // Garante que não há mais de um intervalo rodando
+                slideInterval = setInterval(nextSlide, slideDuration);
+            }
+
+            function stopAutoSlide() {
+                clearInterval(slideInterval);
+            }
+
+            // Eventos de clique para navegação
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                startAutoSlide(); // Reinicia o temporizador
+            });
+
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                startAutoSlide(); // Reinicia o temporizador
+            });
+
+            // Eventos de clique para miniaturas
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', () => {
+                    const index = parseInt(thumb.getAttribute('data-index'));
+                    showSlide(index);
+                    currentSlideIndex = index;
+                    startAutoSlide(); // Reinicia o temporizador
+                });
+            });
+
+            // Inicia o slider automaticamente ao carregar a página
+            showSlide(currentSlideIndex);
+            startAutoSlide();
+
+            // Interrompe o slider ao passar o mouse sobre ele
+            const sliderContainer = document.querySelector('.slider-container');
+            sliderContainer.addEventListener('mouseenter', stopAutoSlide);
+            sliderContainer.addEventListener('mouseleave', startAutoSlide);
+        });
+    </script>
+
+</body>
+</html>
