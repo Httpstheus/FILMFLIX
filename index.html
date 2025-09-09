@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FILMFLIX - Assista Quando e Onde Quiser!</title>
+    <title>CINEMAX - Assista Quando e Onde Quiser!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="https://static.vecteezy.com/system/resources/thumbnails/042/236/044/small/ai-generated-popcorn-in-striped-box-isolated-on-transparent-background-png.png" type="image/x-icon">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -478,6 +479,12 @@
     grid-template-columns: 1fr; /* cards em coluna no mobile */
   }
 }
+
+
+logo-whats {
+    z-index: 5;
+}
+
     </style>
 </head>
 <body>
@@ -489,7 +496,7 @@
             <a href="#home" class="nav-link">Inicio</a>
             <a href="#faq" class="nav-link">Dúvidas</a>
             <a href="#prices" class="nav-link">Planos</a>
-
+            <button style="background: #E43636; border-radius: 20px; font-weight: 500;"><a href="#" class="nav-link"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a></button>
         </nav>
     </header>
 
@@ -720,7 +727,10 @@
       <p class="text-gray-600">Depende do plano contratado; consulte os detalhes do seu pacote para saber os limites específicos.</p>
     </div>
   </div>
+
 </section>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const sliderItems = document.querySelectorAll('.slider-item');
