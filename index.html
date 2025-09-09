@@ -27,7 +27,7 @@
             transition: all 0.3s ease;
         }
 
-        body {
+        html, body {
             background-color: var(--bg-color);
             color: var(--text-color);
             overflow-x: hidden;
@@ -38,7 +38,6 @@
         img {
                 max-width: 100%;
                 height: auto;
-                display: block;
             }
         
         header {
@@ -487,6 +486,22 @@
     grid-template-columns: 1fr; /* cards em coluna no mobile */
   }
 }
+
+@media (max-width: 768px) {
+  .services-section {
+    padding: 4rem 1rem; /* antes era 6rem 5rem */
+  }
+
+  .slider-content {
+    padding: 0 1rem; /* reduz o padding lateral */
+  }
+
+  .thumbnails-container {
+    max-width: 100%;  /* garante que não estoure */
+    padding: 0 10px;  /* evita vazar pros lados */
+  }
+}
+
 
 .whatsapp-float {
   position: fixed;
